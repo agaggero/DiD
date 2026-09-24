@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>IV Jornadas DiD · UGR</title>
+<meta name="description" content="Jornada metodológica sobre enfoques modernos de Difference-in-Differences, con la Dra. Lídia Farré (IAE-CSIC · Barcelona School of Economics). 10 de noviembre de 2026, 10:00–14:00 h. Facultad de Ciencias Económicas y Empresariales, Universidad de Granada. Inscripción gratuita.">
+<meta name="author" content="Departamento de Métodos Cuantitativos para la Economía y la Empresa — Universidad de Granada">
+<meta name="keywords" content="Difference-in-Differences, DiD, TWFE, Callaway Sant'Anna, Sun Abraham, evaluación de políticas, métodos cuantitativos, Universidad de Granada, Lídia Farré">
+
+<!-- Sharing / Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:locale" content="es_ES">
+<meta property="og:site_name" content="IV Jornadas Metodológicas en Métodos Cuantitativos · UGR">
+<meta property="og:title" content="Enfoques modernos de Difference-in-Differences · IV Jornadas Metodológicas (UGR)">
+<meta property="og:description" content="Del TWFE clásico y sus sesgos a los estimadores robustos que redefinen la evaluación causal de impacto. Con la Dra. Lídia Farré. 10 nov 2026 · 10:00–14:00 · FCCEE, Universidad de Granada.">
+<meta property="og:image" content="assets/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://agaggero.github.io/DiD/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Enfoques modernos de Difference-in-Differences · IV Jornadas (UGR)">
+<meta name="twitter:description" content="Jornada metodológica con la Dra. Lídia Farré (IAE-CSIC · BSE). 10 nov 2026 · 10:00–14:00 · FCCEE, Universidad de Granada. Inscripción gratuita.">
+<meta name="twitter:image" content="assets/og-image.png">
+<link rel="canonical" href="https://agaggero.github.io/DiD/">
+
+<meta name="theme-color" content="#ffffff">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="assets/favicon.svg">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@144,400;144,500;144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+/* ============ Design tokens ============ */
+:root{
+  color-scheme: light;
+  /* Fondo blanco + colores corporativos de la FCCEE (naranja #f39200, magenta #b61760) */
+  --bg:#ffffff; --bg-soft:#faf8f5; --bg-warm:#fdf2e7; --bg-warmer:#fbe6d3;
+  --surface:#ffffff; --surface-2:#faf8f6;
+  --ink:#181310; --ink-soft:#524942; --ink-mute:#877b72;
+  --line:#ece5dd; --line-strong:#e0d3c6;
+  --orange:#f39200; --orange-ink:#b5530a; --rust:#a2440a; --magenta:#b61760; --magenta-deep:#8f1050;
+  --grad:linear-gradient(100deg,#F6911F 0%,#EF6A1E 42%,#B61760 100%);
+  --grad-text:linear-gradient(100deg,#C85A0A 0%,#B92C4C 52%,#9E1257 100%);
+  --grad-soft:linear-gradient(100deg,#FDEAD6 0%,#F8DDE8 100%);
+  --ring:rgba(182,23,96,.20);
+  --shadow-sm:0 1px 2px rgba(60,40,20,.05), 0 2px 8px rgba(60,40,20,.05);
+  --shadow-md:0 6px 20px rgba(70,45,25,.08), 0 2px 6px rgba(70,45,25,.05);
+  --shadow-lg:0 20px 48px rgba(80,45,25,.13), 0 6px 16px rgba(80,45,25,.07);
+  --maxw:1080px; --radius:18px; --radius-lg:26px;
+  --gutter:clamp(16px,5vw,40px);
+  --font-sans:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  --font-display:"Fraunces",Georgia,"Times New Roman",serif;
+}
+:root[data-theme="dark"], :root:not([data-theme="light"]){
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#191410; --bg-soft:#211a15; --bg-warm:#271e18; --bg-warmer:#30251d;
+    --surface:#231c16; --surface-2:#2a211a;
+    --ink:#f8efe4; --ink-soft:#d2c1b1; --ink-mute:#a08d7e;
+    --line:#3a2e25; --line-strong:#4a3a2d;
+    --orange:#FF8A2B; --orange-ink:#FF9E52; --rust:#FF7A3D; --magenta:#FF4D9C; --magenta-deep:#FF6FB0;
+    --grad:linear-gradient(100deg,#FFA23E 0%,#FF6A3D 42%,#FF3D9A 100%);
+    --grad-soft:linear-gradient(100deg,#3a2a20 0%,#3a1f2c 100%);
+    --ring:rgba(255,77,156,.30);
+    --shadow-sm:0 1px 2px rgba(0,0,0,.3);
+    --shadow-md:0 8px 24px rgba(0,0,0,.42);
+    --shadow-lg:0 24px 54px rgba(0,0,0,.55), 0 8px 18px rgba(0,0,0,.4);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#191410; --bg-soft:#211a15; --bg-warm:#271e18; --bg-warmer:#30251d;
+  --surface:#231c16; --surface-2:#2a211a;
+  --ink:#f8efe4; --ink-soft:#d2c1b1; --ink-mute:#a08d7e;
+  --line:#3a2e25; --line-strong:#4a3a2d;
+  --orange:#FF8A2B; --orange-ink:#FF9E52; --rust:#FF7A3D; --magenta:#FF4D9C; --magenta-deep:#FF6FB0;
+  --grad:linear-gradient(100deg,#FFA23E 0%,#FF6A3D 42%,#FF3D9A 100%);
+  --grad-soft:linear-gradient(100deg,#3a2a20 0%,#3a1f2c 100%);
+  --ring:rgba(255,77,156,.30);
+  --shadow-sm:0 1px 2px rgba(0,0,0,.3);
+  --shadow-md:0 8px 24px rgba(0,0,0,.42);
+  --shadow-lg:0 24px 54px rgba(0,0,0,.55), 0 8px 18px rgba(0,0,0,.4);
+}
+
+/* ============ Base ============ */
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0; background:var(--bg); color:var(--ink);
+  font-family:var(--font-sans); font-size:clamp(16px,1.6vw,17px); line-height:1.65;
+  -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+  overflow-x:hidden;
+}
+h1,h2,h3{font-family:var(--font-display); font-weight:500; line-height:1.08; letter-spacing:-.01em; margin:0}
+p{margin:0}
+a{color:var(--magenta-deep); text-decoration-color:color-mix(in srgb,var(--magenta) 40%,transparent); text-underline-offset:3px}
+a:hover{text-decoration-color:var(--magenta)}
+img{max-width:100%; display:block}
+:focus-visible{outline:3px solid var(--magenta); outline-offset:3px; border-radius:6px}
+::selection{background:color-mix(in srgb,var(--magenta) 22%,transparent)}
+.container{max-width:var(--maxw); margin-inline:auto; padding-inline:var(--gutter)}
+.section{padding-block:clamp(52px,8.5vw,104px)}
+.eyebrow{font-size:.79rem; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--rust)}
+.section-head{max-width:46rem; margin-bottom:clamp(28px,4vw,48px)}
+.section-head h2{font-size:clamp(1.85rem,4.2vw,2.9rem); margin-top:.5rem}
+.section-head p{color:var(--ink-soft); margin-top:1rem; font-size:1.06rem}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto} *{animation:none!important; transition:none!important}}
+
+/* ============ Buttons ============ */
+.btn{display:inline-flex; align-items:center; gap:.55em; font-family:var(--font-sans); font-weight:600;
+  font-size:.98rem; padding:.82em 1.35em; border-radius:999px; border:1px solid transparent;
+  cursor:pointer; text-decoration:none; transition:transform .16s ease, box-shadow .16s ease, background .16s ease; white-space:nowrap}
+.btn svg{width:1.15em; height:1.15em; flex:none}
+.btn-primary{background:var(--grad); color:#fff; box-shadow:var(--shadow-md); text-shadow:0 1px 1px rgba(120,20,10,.25)}
+.btn-primary:hover{transform:translateY(-2px); box-shadow:var(--shadow-lg)}
+.btn-ghost{background:var(--surface); color:var(--ink); border-color:var(--line-strong); box-shadow:var(--shadow-sm)}
+.btn-ghost:hover{transform:translateY(-2px); border-color:var(--orange); color:var(--orange-ink)}
+.btn-sm{font-size:.86rem; padding:.6em 1.05em}
+
+/* ============ Sticky top bar ============ */
+.topbar{position:sticky; top:0; z-index:50; background:color-mix(in srgb,var(--bg) 82%,transparent);
+  backdrop-filter:blur(12px) saturate(1.3); -webkit-backdrop-filter:blur(12px) saturate(1.3);
+  border-bottom:1px solid color-mix(in srgb,var(--line) 70%,transparent)}
+.topbar .row{display:flex; align-items:center; justify-content:space-between; gap:1rem; height:58px}
+.brand{display:flex; align-items:center; gap:.6rem; text-decoration:none; color:var(--ink); font-weight:700; letter-spacing:-.01em}
+.brand .mark{width:30px; height:30px; border-radius:9px; background:var(--grad); display:grid; place-items:center; box-shadow:var(--shadow-sm); flex:none}
+.brand .mark svg{width:17px; height:17px}
+.brand .btext{display:inline-flex; align-items:baseline; gap:.45em; flex-wrap:wrap}
+.brand b{font-weight:700; font-size:.98rem; color:var(--ink)}
+.brand .bsub{color:var(--ink-mute); font-weight:500; font-size:.83rem}
+@media (max-width:560px){ .brand .bsub{display:none} }
+
+/* ============ Hero ============ */
+.hero{position:relative; overflow:hidden; background:
+  radial-gradient(1050px 500px at 86% -12%, var(--bg-warm), transparent 62%),
+  radial-gradient(780px 460px at 2% 4%, color-mix(in srgb,var(--magenta) 6%,transparent), transparent 60%),
+  var(--bg)}
+.hero .blob{position:absolute; border-radius:50%; filter:blur(48px); opacity:.36; z-index:0; pointer-events:none}
+.hero .blob.b1{width:340px;height:340px; background:radial-gradient(circle,#FFB36B,transparent 68%); top:-90px; right:-40px}
+.hero .blob.b2{width:300px;height:300px; background:radial-gradient(circle,#FF8AC1,transparent 68%); bottom:-120px; left:-70px}
+.hero .blob.b3{width:180px;height:180px; background:radial-gradient(circle,#FFD9A6,transparent 66%); top:44%; right:16%}
+.hero .container{position:relative; z-index:1; padding-block:clamp(40px,7vw,74px)}
+.kicker{display:inline-flex; align-items:center; gap:.6em; font-size:.8rem; font-weight:700; letter-spacing:.1em;
+  text-transform:uppercase; color:var(--rust); background:color-mix(in srgb,var(--orange) 12%,var(--surface));
+  border:1px solid var(--line-strong); padding:.5em .9em; border-radius:999px; box-shadow:var(--shadow-sm); line-height:1.2}
+.kicker .dot{width:7px;height:7px;border-radius:50%;background:var(--grad);flex:none}
+.hero h1{font-size:clamp(2.35rem,7vw,4.6rem); margin-top:1.15rem; max-width:15ch; overflow-wrap:break-word}
+.hero h1 .grad{background:var(--grad-text); -webkit-background-clip:text; background-clip:text; color:transparent}
+.hero .lede{margin-top:1.35rem; font-size:clamp(1.05rem,2.3vw,1.28rem); color:var(--ink-soft); max-width:40rem}
+.facts{list-style:none; margin:1.9rem 0 0; padding:0; display:flex; flex-wrap:wrap; gap:.6rem}
+.facts li{display:inline-flex; align-items:center; gap:.5em; background:var(--surface); border:1px solid var(--line);
+  border-radius:12px; padding:.6em .9em; font-size:.93rem; font-weight:500; box-shadow:var(--shadow-sm); color:var(--ink)}
+.facts svg{width:18px;height:18px; color:var(--orange-ink); flex:none}
+.facts b{font-weight:600}
+.cta-row{display:flex; flex-wrap:wrap; gap:.8rem; margin-top:2rem}
+.hero-note{margin-top:1.5rem; font-size:.9rem; color:var(--ink-mute)}
+.hero-note b{color:var(--ink-soft); font-weight:600}
+
+/* ============ Generic cards ============ */
+.card{background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow-sm)}
+
+/* Sobre / intro */
+.about-grid{display:grid; grid-template-columns:1.15fr .85fr; gap:clamp(24px,4vw,52px); align-items:start}
+@media (max-width:820px){.about-grid{grid-template-columns:1fr}}
+.prose p+p{margin-top:1.1rem}
+.prose strong{color:var(--ink); font-weight:600}
+.refs{margin-top:1.6rem}
+.refs .lbl{font-size:.78rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--ink-mute)}
+.chips{display:flex; flex-wrap:wrap; gap:.5rem; margin-top:.75rem; padding:0; list-style:none}
+.chips li{font-size:.84rem; font-weight:500; color:var(--ink-soft); background:var(--bg-warm);
+  border:1px solid var(--line); border-radius:999px; padding:.4em .8em}
+
+/* Flow diagram */
+.flow{background:linear-gradient(180deg,var(--surface),var(--surface-2)); border:1px solid var(--line);
+  border-radius:var(--radius-lg); padding:clamp(20px,3vw,30px); box-shadow:var(--shadow-md)}
+.flow h3{font-family:var(--font-sans); font-size:.82rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--ink-mute); margin-bottom:1.25rem}
+.flow-track{display:flex; flex-direction:column; gap:.55rem}
+.flow-node{border-radius:14px; padding:.9em 1.05em; border:1px solid var(--line-strong); background:var(--bg-soft)}
+.flow-node .t{font-weight:700; font-size:1rem; display:flex; align-items:center; gap:.5em}
+.flow-node .s{font-size:.86rem; color:var(--ink-soft); margin-top:.15rem}
+.flow-node.problem{background:color-mix(in srgb,var(--orange) 9%,var(--surface)); border-color:color-mix(in srgb,var(--orange) 35%,var(--line))}
+.flow-node.solution{background:color-mix(in srgb,var(--magenta) 8%,var(--surface)); border-color:color-mix(in srgb,var(--magenta) 32%,var(--line))}
+.flow-arrow{display:flex; align-items:center; gap:.5em; padding-left:.4em; color:var(--rust); font-size:.82rem; font-weight:600}
+.flow-arrow svg{width:16px;height:20px; flex:none}
+.flow-arrow .lbl{color:var(--ink-mute); font-weight:500}
+.num-badge{width:1.7em;height:1.7em;border-radius:8px;background:var(--grad);color:#fff;display:inline-grid;place-items:center;font-size:.78rem;font-weight:700;flex:none}
+
+/* Objetivos */
+.obj-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:1rem}
+.obj{padding:1.4rem 1.4rem 1.5rem; display:flex; flex-direction:column; gap:.7rem; position:relative; overflow:hidden}
+.obj .ic{width:42px;height:42px;border-radius:12px;background:var(--grad-soft);display:grid;place-items:center;color:var(--rust)}
+.obj .ic svg{width:22px;height:22px}
+.obj h3{font-family:var(--font-sans); font-size:1.02rem; font-weight:700; line-height:1.3}
+.obj p{font-size:.94rem; color:var(--ink-soft)}
+.obj .n{position:absolute; top:.7rem; right:1rem; font-family:var(--font-display); font-size:1.5rem; color:var(--line-strong)}
+
+/* Ponente */
+.speaker{display:grid; grid-template-columns:300px 1fr; gap:clamp(24px,4vw,48px); align-items:center}
+@media (max-width:760px){.speaker{grid-template-columns:1fr; max-width:440px; margin-inline:auto}}
+.portrait{position:relative}
+.portrait .frame{border-radius:22px; overflow:hidden; border:1px solid var(--line); box-shadow:var(--shadow-lg); background:var(--surface)}
+.portrait img{width:100%; aspect-ratio:820/869; object-fit:cover}
+.portrait::before{content:""; position:absolute; inset:-14px -14px auto auto; width:120px;height:120px; border-radius:50%;
+  background:var(--grad); filter:blur(2px); opacity:.16; z-index:-1}
+.portrait .badge{position:absolute; left:14px; bottom:14px; background:color-mix(in srgb,var(--surface) 92%,transparent);
+  backdrop-filter:blur(6px); border:1px solid var(--line); border-radius:12px; padding:.5em .8em; font-size:.8rem; font-weight:600; box-shadow:var(--shadow-md)}
+.speaker .role-label{font-size:.8rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--rust)}
+.speaker h2{font-size:clamp(2rem,4.6vw,2.9rem); margin-top:.5rem}
+.affil{list-style:none;padding:0;margin:1.2rem 0 0;display:flex;flex-direction:column;gap:.7rem}
+.affil li{display:flex;gap:.7rem;align-items:flex-start;font-size:.98rem}
+.affil .d{width:10px;height:10px;border-radius:50%;background:var(--grad);margin-top:.5rem;flex:none}
+.affil b{font-weight:600}
+.affil span{color:var(--ink-soft)}
+.speaker .bio{margin-top:1.3rem; color:var(--ink-soft)}
+.tags{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.3rem;padding:0;list-style:none}
+.tags li{font-size:.82rem;font-weight:600;color:var(--rust);background:color-mix(in srgb,var(--orange) 10%,var(--surface));border:1px solid color-mix(in srgb,var(--orange) 28%,var(--line));border-radius:999px;padding:.42em .85em}
+
+/* ============ Programa ============ */
+.programa{background:
+  radial-gradient(900px 500px at 90% 0%, var(--bg-warm), transparent 60%), var(--bg-soft)}
+.prog-meta{display:flex;flex-wrap:wrap;gap:.6rem;margin-bottom:2rem}
+.prog-meta .pill{display:inline-flex;align-items:center;gap:.5em;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:.5em .95em;font-size:.9rem;font-weight:500;box-shadow:var(--shadow-sm)}
+.prog-meta .pill svg{width:17px;height:17px;color:var(--orange-ink)}
+.timeline{position:relative; display:flex; flex-direction:column; gap:1.1rem}
+.timeline::before{content:"";position:absolute; left:26px; top:14px; bottom:14px; width:3px;
+  background:linear-gradient(var(--orange),var(--magenta)); border-radius:3px; opacity:.5}
+@media (max-width:620px){.timeline::before{left:19px}}
+.block{position:relative; display:grid; grid-template-columns:56px 1fr; gap:1rem; align-items:start}
+@media (max-width:620px){.block{grid-template-columns:42px 1fr; gap:.7rem}}
+.block .node{width:54px;height:54px;border-radius:16px;background:var(--grad);color:#fff;display:grid;place-items:center;
+  font-family:var(--font-display);font-size:1.4rem;font-weight:600;box-shadow:var(--shadow-md);z-index:1;position:relative}
+@media (max-width:620px){.block .node{width:40px;height:40px;border-radius:12px;font-size:1.05rem}}
+.block .body{background:var(--surface); border:1px solid var(--line); border-radius:var(--radius-lg); box-shadow:var(--shadow-md); padding:clamp(18px,2.6vw,28px); overflow:hidden}
+.block .head{display:flex; flex-wrap:wrap; align-items:baseline; gap:.6rem 1rem; margin-bottom:.5rem}
+.block .time{display:inline-flex;align-items:center;gap:.45em;font-weight:700;color:var(--orange-ink);font-size:1rem;font-variant-numeric:tabular-nums}
+.block .time svg{width:16px;height:16px}
+.block .dur{font-size:.8rem;font-weight:600;color:var(--ink-mute);background:var(--bg-warm);border:1px solid var(--line);border-radius:999px;padding:.25em .7em}
+.block h3{font-size:clamp(1.3rem,3vw,1.75rem); margin:.15rem 0 .5rem; font-weight:600}
+.block .desc{color:var(--ink-soft); font-size:.98rem}
+.topics{list-style:none;padding:0;margin:1.1rem 0 0;display:grid;gap:.6rem}
+.topics li{display:flex;gap:.65rem;align-items:flex-start;font-size:.95rem}
+.topics .mk{width:20px;height:20px;flex:none;border-radius:6px;background:color-mix(in srgb,var(--magenta) 12%,var(--surface));border:1px solid color-mix(in srgb,var(--magenta) 30%,var(--line));display:grid;place-items:center;margin-top:.1rem}
+.topics .mk svg{width:12px;height:12px;color:var(--magenta-deep)}
+.topics b{font-weight:600;color:var(--ink)}
+.break{display:grid;grid-template-columns:56px 1fr;gap:1rem;align-items:center}
+@media (max-width:620px){.break{grid-template-columns:42px 1fr;gap:.7rem}}
+.break .node{width:54px;height:54px;border-radius:16px;background:var(--bg-warmer);border:1px dashed var(--line-strong);color:var(--rust);display:grid;place-items:center;z-index:1;position:relative}
+@media (max-width:620px){.break .node{width:40px;height:40px;border-radius:12px}}
+.break .node svg{width:24px;height:24px}
+.break .pillbar{display:flex;flex-wrap:wrap;align-items:center;gap:.5rem .9rem;background:color-mix(in srgb,var(--bg-warm) 70%,var(--surface));border:1px dashed var(--line-strong);border-radius:14px;padding:.75em 1.1em}
+.break .pillbar b{font-weight:700;color:var(--rust)}
+.break .pillbar .time{font-weight:700;color:var(--orange-ink);font-variant-numeric:tabular-nums}
+.break .pillbar span{color:var(--ink-soft);font-size:.92rem}
+.prog-foot{margin-top:1.6rem;font-size:.85rem;color:var(--ink-mute);display:flex;gap:.5em;align-items:flex-start}
+.prog-foot svg{width:16px;height:16px;flex:none;margin-top:.15rem;color:var(--orange-ink)}
+
+/* ============ Audience + practical ============ */
+.two{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem}
+@media (max-width:780px){.two{grid-template-columns:1fr}}
+.panel{padding:clamp(22px,3vw,32px)}
+.panel h3{font-family:var(--font-sans);font-weight:700;font-size:1.15rem;display:flex;align-items:center;gap:.6rem}
+.panel h3 .ic{width:36px;height:36px;border-radius:10px;background:var(--grad-soft);display:grid;place-items:center;color:var(--rust);flex:none}
+.panel h3 .ic svg{width:19px;height:19px}
+.panel p{margin-top:1rem;color:var(--ink-soft);font-size:.97rem}
+.aud-list{list-style:none;padding:0;margin:1rem 0 0;display:grid;gap:.55rem}
+.aud-list li{display:flex;gap:.6rem;align-items:flex-start;font-size:.95rem;color:var(--ink-soft)}
+.aud-list svg{width:17px;height:17px;color:var(--magenta-deep);flex:none;margin-top:.22rem}
+.info-list{list-style:none;padding:0;margin:1rem 0 0;display:grid;gap:.9rem}
+.info-list li{display:flex;gap:.8rem;align-items:flex-start}
+.info-list .ic{width:38px;height:38px;border-radius:10px;background:var(--bg-warm);border:1px solid var(--line);display:grid;place-items:center;color:var(--orange-ink);flex:none}
+.info-list .ic svg{width:19px;height:19px}
+.info-list .k{font-size:.78rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-mute)}
+.info-list .v{font-weight:600;font-size:1rem}
+.info-list .v small{display:block;font-weight:500;color:var(--ink-soft);font-size:.86rem;margin-top:.1rem}
+.complement{margin-top:1.25rem;display:flex;gap:.8rem;align-items:flex-start;background:var(--bg-warm);border:1px solid var(--line);border-radius:14px;padding:1em 1.15em}
+.complement svg{width:20px;height:20px;color:var(--rust);flex:none;margin-top:.15rem}
+.complement p{margin:0;font-size:.92rem;color:var(--ink-soft)}
+.complement b{color:var(--ink);font-weight:600}
+
+/* ============ Registration CTA ============ */
+.register .inner{position:relative; overflow:hidden; border-radius:var(--radius-lg); padding:clamp(30px,5vw,60px);
+  background:var(--grad); color:#fff; box-shadow:var(--shadow-lg); text-align:center}
+.register .inner::after{content:"";position:absolute;inset:0;background:
+  radial-gradient(420px 260px at 12% 0%, rgba(255,255,255,.25), transparent 60%),
+  radial-gradient(420px 320px at 92% 120%, rgba(120,0,60,.28), transparent 60%); pointer-events:none}
+.register .inner>*{position:relative}
+.register .tag{font-size:.8rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;opacity:.92}
+.register h2{color:#fff;font-size:clamp(1.9rem,4.5vw,2.9rem);margin:.6rem 0 0;text-shadow:0 1px 2px rgba(120,20,10,.25)}
+.register p{margin:1rem auto 0;max-width:34rem;color:rgba(255,255,255,.94);font-size:1.05rem}
+.register .btn-row{display:flex;flex-wrap:wrap;gap:.8rem;justify-content:center;margin-top:1.8rem}
+.register .btn-white{background:#fff;color:var(--rust)}
+.register .btn-white:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg)}
+.register .btn-outline{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.55);color:#fff;backdrop-filter:blur(4px)}
+.register .btn-outline:hover{background:rgba(255,255,255,.2)}
+.register .mini{margin-top:1.4rem;font-size:.85rem;opacity:.9}
+
+/* ============ Organización + footer ============ */
+.org-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(24px,4vw,48px);align-items:start}
+@media (max-width:820px){.org-grid{grid-template-columns:1fr}}
+.org-list{list-style:none;padding:0;margin:1.3rem 0 0;display:grid;gap:1.1rem}
+.org-list li{display:grid;gap:.15rem}
+.org-list .r{font-size:.76rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--rust)}
+.org-list .n{font-weight:600}
+.org-list .m{font-size:.9rem;color:var(--ink-soft)}
+.logos{display:flex;flex-wrap:wrap;gap:1.4rem 2.3rem;align-items:center}
+.logos img{width:auto;object-fit:contain;height:52px}
+.logos .logo-fccee{height:66px}
+.logos .logo-ugr{height:50px}
+.logos .logo-dmc{height:46px}
+footer.site{border-top:1px solid var(--line); background:var(--bg-soft)}
+footer.site .row{display:flex;flex-wrap:wrap;justify-content:space-between;gap:1.2rem;align-items:center;padding-block:2rem}
+footer.site .fbrand{display:flex;align-items:center;gap:.6rem;font-weight:700}
+footer.site .fbrand .mark{width:32px;height:32px;border-radius:9px;background:var(--grad);display:grid;place-items:center;flex:none}
+footer.site .fbrand .mark svg{width:18px;height:18px}
+footer.site .meta{font-size:.86rem;color:var(--ink-mute);max-width:38rem}
+footer.site a{color:var(--ink-soft)}
+.disclaimer{font-size:.8rem;color:var(--ink-mute);padding-bottom:2.4rem;display:flex;gap:.5em;align-items:flex-start}
+.disclaimer svg{width:15px;height:15px;flex:none;margin-top:.15rem}
+.visually-hidden{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.skip{position:absolute;left:-999px;top:0;z-index:100;background:var(--surface);color:var(--ink);padding:.7em 1em;border-radius:0 0 10px 0;box-shadow:var(--shadow-md)}
+.skip:focus{left:0}
+</style>
+</head>
+<body>
+<a href="#programa" class="skip">Saltar al programa</a>
+
+<!-- ===== Sticky bar ===== -->
+<div class="topbar">
+  <div class="container row">
+    <a class="brand" href="#top" aria-label="IV Jornadas DiD — inicio">
+      <span class="mark" aria-hidden="true">
+        <svg viewBox="0 0 64 64" fill="none"><path d="M32 15 L47 46 H17 Z" stroke="#fff" stroke-width="5" stroke-linejoin="round"/><circle cx="32" cy="38" r="3.6" fill="#fff"/></svg>
+      </span>
+      <span class="btext"><b>IV Jornadas DiD</b><span class="bsub">· Métodos Cuantitativos · UGR</span></span>
+    </a>
+    <a class="btn btn-primary btn-sm" href="#inscripcion" data-form>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+      Inscripción
+    </a>
+  </div>
+</div>
+
+<main id="top">
+<!-- ===== HERO ===== -->
+<header class="hero">
+  <span class="blob b1"></span><span class="blob b2"></span><span class="blob b3"></span>
+  <div class="container">
+    <p class="kicker"><span class="dot" aria-hidden="true"></span> IV Jornadas Metodológicas y Multidisciplinares · Métodos Cuantitativos</p>
+    <h1>Enfoques modernos de <span class="grad">Difference-in-Differences</span></h1>
+    <p class="lede">Del estimador clásico <b>TWFE</b> y sus sesgos a la nueva generación de estimadores robustos que están redefiniendo la <strong>evaluación causal de impacto</strong> con datos de panel.</p>
+    <ul class="facts">
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg> Martes <b>10 nov 2026</b></li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg> <b>10:00–14:00</b> h</li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-5.5-7-11a7 7 0 0 1 14 0c0 5.5-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg> Aula <b>D11</b> · FCCEE</li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 2.5 15.3 0 18M12 3c-2.5 2.7-2.5 15.3 0 18"/></svg> Español · Presencial</li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12v7a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-7"/><path d="M2 8h20v4H2zM12 8v13M12 8L8.5 4.5a2.1 2.1 0 0 1 3-3L12 3l.5-1.5a2.1 2.1 0 0 1 3 3L12 8z"/></svg> Entrada <b>gratuita</b></li>
+    </ul>
+    <div class="cta-row">
+      <a class="btn btn-primary" href="#inscripcion" data-form>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+        Inscripción gratuita
+      </a>
+      <a class="btn btn-ghost" href="#programa">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>
+        Ver el programa
+      </a>
+    </div>
+    <p class="hero-note"><b>Universidad de Granada</b> · Facultad de Ciencias Económicas y Empresariales</p>
+  </div>
+</header>
+
+<!-- ===== SOBRE LA JORNADA ===== -->
+<section class="section" id="sobre" aria-labelledby="sobre-h">
+  <div class="container about-grid">
+    <div>
+      <div class="section-head">
+        <p class="eyebrow">Sobre la jornada</p>
+        <h2 id="sobre-h">Qué son las Jornadas y el foco de esta edición</h2>
+      </div>
+      <div class="prose">
+        <p>Las <strong>Jornadas Metodológicas y Multidisciplinares en Métodos Cuantitativos</strong> son un espacio de actualización y diálogo del profesorado, el personal investigador y el alumnado de doctorado de la Facultad de Ciencias Económicas y Empresariales de la UGR y de centros afines. Cada edición aborda en profundidad una técnica cuantitativa de frontera.</p>
+        <p>Esta <strong>IV edición</strong> se dedica a los <strong>enfoques modernos de Difference-in-Differences (DiD)</strong>, el principal instrumento para evaluar políticas públicas e intervenciones empresariales con datos de panel. Desde 2018, la literatura ha demostrado que el estimador clásico de efectos fijos en doble dirección (<strong>TWFE</strong>) puede producir estimaciones sesgadas cuando los efectos del tratamiento son heterogéneos o la adopción es escalonada, y ha dado lugar a una <strong>nueva generación de estimadores robustos</strong> que hoy redefine el estándar de la investigación empírica de impacto.</p>
+      </div>
+      <div class="refs">
+        <p class="lbl">Referencias que vertebran el programa</p>
+        <ul class="chips">
+          <li>Goodman-Bacon (2021)</li>
+          <li>de Chaisemartin &amp; D'Haultfœuille (2020)</li>
+          <li>Callaway &amp; Sant'Anna (2021)</li>
+          <li>Sun &amp; Abraham (2021)</li>
+          <li>Borusyak, Jaravel &amp; Spiess (2024)</li>
+          <li>Bonhomme &amp; Manresa</li>
+        </ul>
+      </div>
+    </div>
+    <aside class="flow" aria-label="Estructura conceptual de la jornada">
+      <h3>El recorrido de la jornada</h3>
+      <div class="flow-track">
+        <div class="flow-node problem">
+          <div class="t"><span class="num-badge">1</span> El TWFE clásico</div>
+          <div class="s">Efectos fijos en doble dirección — el estándar en miles de trabajos empíricos.</div>
+        </div>
+        <div class="flow-arrow">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M6 13l6 6 6-6"/></svg>
+          <span class="lbl">Sesgos con heterogeneidad y adopción escalonada</span>
+        </div>
+        <div class="flow-node">
+          <div class="t"><span class="num-badge">2</span> Diagnóstico</div>
+          <div class="s">La descomposición de Goodman-Bacon: qué compara realmente el TWFE.</div>
+        </div>
+        <div class="flow-arrow">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M6 13l6 6 6-6"/></svg>
+          <span class="lbl">Nueva generación de estimadores</span>
+        </div>
+        <div class="flow-node solution">
+          <div class="t"><span class="num-badge">3</span> Estimadores robustos</div>
+          <div class="s">Callaway-Sant'Anna · Sun-Abraham · Group Fixed Effects (Bonhomme-Manresa).</div>
+        </div>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<!-- ===== OBJETIVOS ===== -->
+<section class="section" id="objetivos" aria-labelledby="obj-h" style="background:var(--bg-soft)">
+  <div class="container">
+    <div class="section-head">
+      <p class="eyebrow">Objetivos</p>
+      <h2 id="obj-h">Qué te llevarás de la jornada</h2>
+      <p>Una sesión intensiva orientada a que investigadores y doctorandos puedan aplicar con criterio los métodos DiD de última generación.</p>
+    </div>
+    <div class="obj-grid">
+      <article class="card obj">
+        <span class="n">01</span>
+        <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><path d="M12 9v4M12 17h.01"/></svg></span>
+        <h3>Identificar los sesgos del TWFE</h3>
+        <p>Comprender los problemas de identificación del estimador clásico ante heterogeneidad de efectos y adopción escalonada, mediante la descomposición de Goodman-Bacon.</p>
+      </article>
+      <article class="card obj">
+        <span class="n">02</span>
+        <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-6"/></svg></span>
+        <h3>Dominar CS y AS</h3>
+        <p>Presentar con rigor los estimadores Callaway-Sant'Anna y Sun-Abraham: identificación, propiedades estadísticas e implementación práctica con software estándar.</p>
+      </article>
+      <article class="card obj">
+        <span class="n">03</span>
+        <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="3"/><circle cx="18" cy="6" r="3"/><circle cx="12" cy="18" r="3"/><path d="M6 9v3a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V9M12 14v1"/></svg></span>
+        <h3>Explorar Group Fixed Effects</h3>
+        <p>Introducir el enfoque GFE de Bonhomme-Manresa como vía complementaria para modelizar la heterogeneidad inobservada entre unidades.</p>
+      </article>
+      <article class="card obj">
+        <span class="n">04</span>
+        <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13A4 4 0 0 1 16 11"/></svg></span>
+        <h3>Fomentar el diálogo metodológico</h3>
+        <p>Crear un punto de encuentro entre el PDI y el alumnado de doctorado de la FCCEE y de otros centros de la UGR con tradición de investigación empírica.</p>
+      </article>
+      <article class="card obj">
+        <span class="n">05</span>
+        <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 3 6v6c0 5 3.8 8.5 9 10 5.2-1.5 9-5 9-10V6l-9-4z"/><path d="M9 12l2 2 4-4"/></svg></span>
+        <h3>Actualizar el método cuantitativo</h3>
+        <p>Contribuir a la actualización del profesorado y personal investigador en métodos cuantitativos avanzados, en coherencia con la misión investigadora de la Facultad.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PONENTE ===== -->
+<section class="section" id="ponente" aria-labelledby="pon-h">
+  <div class="container">
+    <div class="speaker">
+      <div class="portrait">
+        <div class="frame"><img src="assets/lidia-farre.jpg" alt="Retrato de la Dra. Lídia Farré, ponente invitada" width="820" height="869" loading="lazy"></div>
+        <span class="badge">Ponente invitada</span>
+      </div>
+      <div>
+        <p class="role-label">Ponente invitada</p>
+        <h2 id="pon-h">Dra. Lídia Farré</h2>
+        <ul class="affil">
+          <li><span class="d" aria-hidden="true"></span><span><b>Catedrática de Universidad</b> · Economía Aplicada</span></li>
+          <li><span class="d" aria-hidden="true"></span><span>Institut d'Anàlisi Econòmica (IAE‑CSIC) · Barcelona School of Economics</span></li>
+        </ul>
+        <p class="bio">Investigadora con una trayectoria internacional consolidada en economía aplicada, economía del mercado de trabajo, economía de la familia y evaluación de políticas públicas. Ha publicado en revistas de referencia como el <em>Journal of Public Economics</em>, el <em>Journal of the European Economic Association</em> o el <em>Economic Journal</em>, y participa habitualmente en las redes internacionales <b>CEPR</b> e <b>IZA</b>.</p>
+        <ul class="tags">
+          <li>Economía aplicada</li>
+          <li>Mercado de trabajo</li>
+          <li>Economía de la familia</li>
+          <li>Evaluación de políticas</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PROGRAMA ===== -->
+<section class="section programa" id="programa" aria-labelledby="prog-h">
+  <div class="container">
+    <div class="section-head">
+      <p class="eyebrow">Programa del día</p>
+      <h2 id="prog-h">Dos bloques, una pausa</h2>
+      <p>La sesión se organiza en dos grandes bloques —primero el diagnóstico, después las soluciones— separados por una pausa de café para el intercambio informal.</p>
+    </div>
+    <div class="prog-meta">
+      <span class="pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg> Martes 10 de noviembre de 2026</span>
+      <span class="pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg> 10:00 – 14:00 h · 4 horas</span>
+      <span class="pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-5.5-7-11a7 7 0 0 1 14 0c0 5.5-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg> Aula D11 · FCCEE (UGR)</span>
+    </div>
+
+    <div class="timeline">
+      <!-- Bloque 1 -->
+      <article class="block">
+        <div class="node" aria-hidden="true">01</div>
+        <div class="body">
+          <div class="head">
+            <span class="time"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg> 10:00 – 11:30</span>
+            <span class="dur">90 min</span>
+          </div>
+          <h3>Bloque 1 · Diagnóstico: el TWFE y sus límites</h3>
+          <p class="desc">Por qué el estimador de efectos fijos en doble dirección —usado como estándar en miles de publicaciones— puede estar sesgado, y cómo detectarlo antes de sacar conclusiones causales.</p>
+          <ul class="topics">
+            <li><span class="mk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg></span><span><b>Two-Way Fixed Effects (TWFE):</b> uso estándar y supuestos implícitos.</span></li>
+            <li><span class="mk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg></span><span><b>La descomposición de Goodman-Bacon (2021):</b> qué comparaciones promedia realmente el TWFE.</span></li>
+            <li><span class="mk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg></span><span><b>Heterogeneidad de los efectos</b> del tratamiento y el problema de los «pesos negativos».</span></li>
+            <li><span class="mk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg></span><span><b>Adopción escalonada</b> (<em>staggered adoption</em>) y las comparaciones «prohibidas».</span></li>
+          </ul>
+        </div>
+      </article>
+
+      <!-- Pausa -->
+      <div class="break">
+        <div class="node" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h13v5a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5V8z"/><path d="M17 9h2a2.5 2.5 0 0 1 0 5h-2"/><path d="M7 2c-.5 1 .5 2 0 3M11 2c-.5 1 .5 2 0 3"/></svg></div>
+        <div class="pillbar">
+          <b>☕ Pausa – café &amp; networking</b>
+          <span class="time">11:30 – 12:00</span>
+          <span>Intercambio informal entre asistentes y ponente.</span>
+        </div>
+      </div>
+
+      <!-- Bloque 2 -->
+      <article class="block">
+        <div class="node" aria-hidden="true">02</div>
+        <div class="body">
+          <div class="head">
+            <span class="time"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg> 12:00 – 14:00</span>
+            <span class="dur">120 min</span>
+          </div>
+          <h3>Bloque 2 · La nueva generación de estimadores DiD robustos</h3>
+          <p class="desc">El conjunto de estimadores modernos que corrige los problemas del TWFE, con criterios prácticos para elegir el más adecuado en cada diseño de investigación.</p>
+          <ul class="topics">
+            <li><span class="mk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg></span><span><b>Estimador Callaway-Sant'Anna (CS):</b> identificación, <em>group-time ATT</em>, esquemas de agregación, tendencias paralelas e implementación.</span></li>
+            <li><span class="mk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg></span><span><b>Estimador Sun-Abraham (AS)</b> y su conexión con los diseños <em>event-study</em>.</span></li>
+            <li><span class="mk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg></span><span><b>Comparación crítica CS vs. AS:</b> criterios de elección entre estimadores.</span></li>
+            <li><span class="mk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg></span><span><b>Group Fixed Effects (GFE)</b> de Bonhomme-Manresa: heterogeneidad inobservada.</span></li>
+            <li><span class="mk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg></span><span><b>Discusión final,</b> preguntas y ejemplos aplicados.</span></li>
+          </ul>
+        </div>
+      </article>
+    </div>
+    <p class="prog-foot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v4h1"/></svg> Horario orientativo (sesión única de 4 h). El programa detallado de la <em>memoria</em> se ha reorganizado en dos bloques con una única pausa de café situada en el ecuador de la mañana.</p>
+  </div>
+</section>
+
+<!-- ===== AUDIENCIA + PRÁCTICA ===== -->
+<section class="section" id="info" aria-labelledby="info-h">
+  <div class="container">
+    <div class="section-head">
+      <p class="eyebrow">Asistencia</p>
+      <h2 id="info-h">¿A quién se dirige y cómo asistir?</h2>
+    </div>
+    <div class="two">
+      <div class="card panel">
+        <h3><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13A4 4 0 0 1 16 11"/></svg></span> Público objetivo</h3>
+        <p>Actividad abierta, dirigida prioritariamente a la comunidad investigadora de la UGR:</p>
+        <ul class="aud-list">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg> Personal docente e investigador (PDI) y personal postdoctoral.</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg> Alumnado de doctorado de la FCCEE y de centros afines (Sociología, Ciencias Políticas, Salud Pública, Educación).</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg> Alumnado del Máster en Economía y del Máster en Técnicas Cuantitativas en Gestión Empresarial.</li>
+        </ul>
+        <div class="complement">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.4 7.4H22l-6 4.6 2.3 7.4L12 17l-6.3 4.4L8 14 2 9.4h7.6z"/></svg>
+          <p><b>Actividad complementaria.</b> El 11 de noviembre, la Dra. Farré impartirá además un seminario de investigación organizado por el Departamento de Teoría e Historia Económicas.</p>
+        </div>
+      </div>
+      <div class="card panel">
+        <h3><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-5.5-7-11a7 7 0 0 1 14 0c0 5.5-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg></span> Información práctica</h3>
+        <ul class="info-list">
+          <li><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></span><span class="txt"><span class="k">Fecha</span><span class="v">Martes 10 de noviembre de 2026</span></span></li>
+          <li><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span><span class="txt"><span class="k">Horario</span><span class="v">10:00 – 14:00 h<small>Sesión única · 4 horas</small></span></span></li>
+          <li><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-5.5-7-11a7 7 0 0 1 14 0c0 5.5-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg></span><span class="txt"><span class="k">Lugar</span><span class="v">Aula D11 · FCCEE<small>Facultad de Ciencias Económicas y Empresariales · Universidad de Granada</small></span></span></li>
+          <li><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v14H4z"/><path d="M4 8h16M8 5v3"/></svg></span><span class="txt"><span class="k">Idioma y formato</span><span class="v">Español · Presencial</span></span></li>
+          <li><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12v7a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-7"/><path d="M2 8h20v4H2zM12 8v13"/></svg></span><span class="txt"><span class="k">Inscripción</span><span class="v">Gratuita · aforo limitado<small>Necesaria solo a efectos de gestión de aforo</small></span></span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== INSCRIPCIÓN CTA ===== -->
+<section class="section register" id="inscripcion" aria-labelledby="ins-h">
+  <div class="container">
+    <div class="inner">
+      <p class="tag">Inscripción</p>
+      <h2 id="ins-h">Reserva tu plaza — es gratis</h2>
+      <p>El acceso es gratuito y abierto. La inscripción solo es necesaria para gestionar el aforo del aula. Las plazas son limitadas.</p>
+      <div class="btn-row">
+        <a class="btn btn-white" href="#inscripcion" data-form data-form-primary>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+          <span class="lbl">Inscripción (próximamente)</span>
+        </a>
+        <a class="btn btn-outline" href="#programa">Revisar el programa</a>
+      </div>
+      <p class="mini" data-form-note>El formulario de inscripción se publicará próximamente.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== ORGANIZACIÓN ===== -->
+<section class="section" id="organizacion" aria-labelledby="org-h" style="background:var(--bg-soft)">
+  <div class="container org-grid">
+    <div>
+      <div class="section-head">
+        <p class="eyebrow">Organización</p>
+        <h2 id="org-h">Quién organiza la jornada</h2>
+      </div>
+      <ul class="org-list">
+        <li>
+          <span class="r">Organiza</span>
+          <span class="n">Departamento de Métodos Cuantitativos para la Economía y la Empresa</span>
+          <span class="m">Universidad de Granada</span>
+        </li>
+        <li>
+          <span class="r">Colabora</span>
+          <span class="n">Departamento de Teoría e Historia Económicas · Master in Economics</span>
+          <span class="m">Universidad de Granada</span>
+        </li>
+        <li>
+          <span class="r">Con el apoyo de</span>
+          <span class="n">Facultad de Ciencias Económicas y Empresariales (FCCEE)</span>
+          <span class="m">Universidad de Granada</span>
+        </li>
+        <li>
+          <span class="r">Coordinación</span>
+          <span class="n">Alessio Gaggero · Profesor Titular de Universidad</span>
+          <span class="m"><a href="mailto:alessiogaggero@ugr.es">alessiogaggero@ugr.es</a></span>
+        </li>
+      </ul>
+    </div>
+    <div>
+      <p class="lbl" style="font-size:.78rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-mute);margin-bottom:.9rem">Con el respaldo institucional de</p>
+      <div class="logos">
+        <img class="logo logo-fccee" src="assets/logo-fccee.png" alt="Facultad de Ciencias Económicas y Empresariales" loading="lazy">
+        <img class="logo logo-ugr" src="assets/logo-ugr.svg" alt="Universidad de Granada" loading="lazy">
+        <img class="logo logo-dmc" src="assets/logo-dmc.png" alt="Departamento de Métodos Cuantitativos para la Economía y la Empresa" loading="lazy">
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<!-- ===== FOOTER ===== -->
+<footer class="site">
+  <div class="container">
+    <div class="row">
+      <div class="fbrand">
+        <span class="mark" aria-hidden="true"><svg viewBox="0 0 64 64" fill="none"><path d="M32 15 L47 46 H17 Z" stroke="#fff" stroke-width="5" stroke-linejoin="round"/><circle cx="32" cy="38" r="3.6" fill="#fff"/></svg></span>
+        <span>IV Jornadas Metodológicas · Métodos Cuantitativos</span>
+      </div>
+      <p class="meta">Enfoques modernos de Difference-in-Differences · Con la Dra. Lídia Farré (IAE-CSIC · Barcelona School of Economics) · Universidad de Granada.</p>
+    </div>
+    <p class="disclaimer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v4h1"/></svg> Programa provisional, sujeto a pequeños ajustes. Última actualización: septiembre de 2026 · Contacto: <a href="mailto:alessiogaggero@ugr.es">alessiogaggero@ugr.es</a></p>
+  </div>
+</footer>
+
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"EducationEvent",
+  "name":"IV Jornadas Metodológicas y Multidisciplinares en Métodos Cuantitativos — Enfoques Modernos de Difference-in-Differences",
+  "description":"Jornada metodológica sobre los enfoques modernos de Difference-in-Differences (DiD): del TWFE clásico y sus sesgos a los estimadores robustos (Callaway-Sant'Anna, Sun-Abraham, Group Fixed Effects).",
+  "startDate":"2026-11-10T10:00:00+01:00",
+  "endDate":"2026-11-10T14:00:00+01:00",
+  "eventAttendanceMode":"https://schema.org/OfflineEventAttendanceMode",
+  "eventStatus":"https://schema.org/EventScheduled",
+  "inLanguage":"es",
+  "location":{
+    "@type":"Place",
+    "name":"Aula D11 — Facultad de Ciencias Económicas y Empresariales, Universidad de Granada",
+    "address":{"@type":"PostalAddress","addressLocality":"Granada","addressCountry":"ES"}
+  },
+  "organizer":{
+    "@type":"CollegeOrUniversity",
+    "name":"Universidad de Granada — Departamento de Métodos Cuantitativos para la Economía y la Empresa",
+    "url":"https://www.ugr.es/"
+  },
+  "performer":{"@type":"Person","name":"Dra. Lídia Farré","affiliation":"Institut d'Anàlisi Econòmica (IAE-CSIC) · Barcelona School of Economics"},
+  "offers":{"@type":"Offer","price":"0","priceCurrency":"EUR","availability":"https://schema.org/InStock"},
+  "isAccessibleForFree":true
+}
+</script>
+
+<script>
+/* ── Enlace de inscripción (Google Form) ─────────────────────────────
+   Cuando tengáis el formulario, pega su URL entre las comillas de FORM_URL
+   (una sola línea) y todos los botones de inscripción quedarán activos.
+   Mientras esté vacío, los botones muestran «próximamente».             */
+(function () {
+  var FORM_URL = ""; /* p. ej.: "https://forms.gle/xxxxxxxxxxxx" */
+  if (!FORM_URL) return;
+  document.querySelectorAll('[data-form]').forEach(function (a) {
+    a.setAttribute('href', FORM_URL);
+    a.setAttribute('target', '_blank');
+    a.setAttribute('rel', 'noopener');
+  });
+  var primary = document.querySelector('[data-form-primary] .lbl');
+  if (primary) primary.textContent = 'Completar inscripción';
+  var note = document.querySelector('[data-form-note]');
+  if (note) note.textContent = 'Formulario de inscripción · ' + FORM_URL.replace(/^https?:\/\//, '');
+})();
+</script>
+</body>
+</html>

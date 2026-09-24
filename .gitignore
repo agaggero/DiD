@@ -1,0 +1,15 @@
+# Dependencies (regenerated with `npm install`)
+node_modules/
+*.log
+
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+~$*
+
+# Internal document — NOT for a public GitHub Pages repo
+# (contains budget, phone, funding and other internal info)
+Memoria_Jornada_DiD.docx
+
+# Superseded original flyer draft
+professor_flyer_improved_v3 (1).pptx

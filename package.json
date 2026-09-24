@@ -1,0 +1,13 @@
+{
+  "name": "jornada-did-programa",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Microsite del programa de la IV Jornada Metodológica sobre Difference-in-Differences (UGR) y generador del código QR para el cartel.",
+  "type": "module",
+  "scripts": {
+    "qr": "node scripts/generate-qr.mjs"
+  },
+  "dependencies": {
+    "qrcode": "^1.5.4"
+  }
+}

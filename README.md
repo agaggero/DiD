@@ -103,7 +103,7 @@ y en PowerPoint: clic derecho sobre el QR → “Cambiar imagen” → `assets/p
 
 - **Programa en 2 bloques + 1 pausa:** la memoria detallaba 4 subbloques (TWFE/Goodman‑Bacon → Callaway‑Sant’Anna → Sun‑Abraham/event‑study → Group Fixed Effects) con dos pausas. Reorganizado, agrupando por sentido pedagógico, en:
   **Bloque 1 · Diagnóstico: el TWFE y sus límites** (10:00–11:30) → **café** (11:30–12:00) → **Bloque 2 · La nueva generación de estimadores DiD robustos** (12:00–14:00). La memoria daba horario “tentativo”; se situó la única pausa en el ecuador de la mañana (mínima suposición razonable).
-- **Sede:** “Aula D11, FCCEE” (el aula D11 viene del cartel; la memoria solo dice “aula de la FCCEE”).
+- **Sede:** “Aula E14, FCCEE” (aula confirmada por el organizador; la memoria solo decía “aula de la FCCEE”).
 - **Nombre/cargo de la ponente** alineados con la *memoria* como fuente de verdad (ver §6).
 - **Logos:** en la web se usan los oficiales (limpios, sobre blanco). En el cartel se conservaron los logos originales del `.pptx` (para no alterar la composición); si quieres, se pueden sustituir por los oficiales de `/assets`.
 - No se han inventado datos: presupuesto, financiación interna y teléfonos de la memoria se han omitido por ser información interna.
